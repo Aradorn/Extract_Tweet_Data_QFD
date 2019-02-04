@@ -38,13 +38,18 @@ vetoresDeTexto = [vetorizar_texto(frase, tradutor) for frase in frases]
 
 #--------Machine Learning----------
 
-from sklearn.model_selection import train_test_split
-X_treinamento, X_teste= train_test_split(vetoresDeTexto, test_size = 0.3, random_state = 0)
+#from sklearn.model_selection import train_test_split
+#X_treinamento, X_teste= train_test_split(vetoresDeTexto, test_size = 0.3, random_state = 0)
 
 from sklearn.cluster import KMeans
 
-cluster = KMeans(n_clusters = 10)
-cluster.fit(X_treinamento)
+cluster = KMeans(n_clusters = 4)
+cluster.fit(vetoresDeTexto)
 
 centroides = cluster.cluster_centers_
 previsoes = cluster.labels_
+
+resultado = {'Perguntas':frases,'Respostas':previsoes}
+resultado = pd.DataFrame(resultado)
+
+resultado.to_csv("resultado1.csv",sep=';')
