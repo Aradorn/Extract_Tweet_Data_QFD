@@ -5,7 +5,7 @@ nltk.download('stopwords')
 nltk.download('rslp')
 
 #--------Importar Dados----------
-extracao = pd.read_csv('Saraiva.csv')
+extracao = pd.read_csv('MideaBrasil.csv')
 lista_respostas = pd.DataFrame(extracao,columns=["Tweet_Text"])
 lista_perguntas = extracao["Reply Message"]
 
@@ -18,7 +18,7 @@ stopword = nltk.corpus.stopwords.words('portuguese')
 dicionario = set()
 
 for frase in frases:
-    palavrasValidas = [stemmer.stem(palavra) for palavra in frase if palavra not in stopword and len(palavra) > 2]
+    palavrasValidas = [stemmer.stem(palavra) for palavra in frase if palavra not in stopword and len(palavra) > 4]
     dicionario.update(palavrasValidas)
 
 totalDePalavras = len(dicionario)
@@ -52,4 +52,22 @@ previsoes = cluster.labels_
 resultado = {'Perguntas':frases,'Respostas':previsoes}
 resultado = pd.DataFrame(resultado)
 
-resultado.to_csv("resultado1.csv",sep=';')
+resultado.to_csv("resultado2.csv",sep=';')
+
+
+lista_palavras = []
+
+for frase in frases:
+	for palavra in frase:
+		if palavra not in stopword and len(palavra) > 4:
+			lista_palavras.append(palavra)
+
+lista_palavras = str(lista_palavras)
+
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+wordcloud = WordCloud(max_font_size=100,width = 1520, height = 535).generate(lista_palavras)
+plt.figure(figsize=(16,9))
+plt.imshow(wordcloud)
+plt.axis("off")
+plt.show()

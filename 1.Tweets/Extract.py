@@ -13,7 +13,7 @@ auth.set_access_token(access_token, access_secret)
 
 api = tweepy.API(auth)
 
-Lista_Timeline = ["LivCultura"]
+Lista_Timeline = ["MideaBrasil"]
 
 for timeline in Lista_Timeline:
     print(timeline)
